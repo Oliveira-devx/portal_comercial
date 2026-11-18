@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Portal Comercial{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header>
+      <strong>Portal Comercial</strong>
+    </header>
+    <nav>
+      <a href="/">Início</a>
+      <a href="/produtos">produtos</a>
+      <a href="/categorias">categorias</a>
+      <a href="/clientes">clientes</a>
+      <a href="/locais">locais</a>
+      <a href="/lojas">lojas</a>
+      <a href="/vendedores">vendedores</a>
+      <a href="/pedidos">Termos</a>
+      <a href="/relatorios">relatorios</a>
+      <a href="/sobre">Sobre</a>
+    </nav>
+    <header>
+      {% for mensagem in get_flashed_messages() %}
+      <p>class="aviso">{{mensagem}}</p>
+      {% endfor %} {% block content %}{% endblock %}
+    </header>
+    <main>
+      <footer>
+        laboratorio local com a banco_v3. não publicar na internet.
+      </footer>
+    </main>
+  </body>
+</html>

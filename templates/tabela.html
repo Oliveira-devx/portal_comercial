@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block titulo %}{{ titulo }} | Portal Comercial {%endblock%}
+{% block conteudo %}
+
+{% if novo %}
+<p><a class="botao" href="{{url_for(novo) }}">cadastrar</a></p>
+{% endif %}
+
+{% if busca is defined %}
+<form method="get">
+    <label for="busca">pesquisar</label>
+    <input id="busca" name="busca" value="{{busca}}">
+    <button type="submit">pesquisar</button>
+</form>
+
+{% endif %}
+
+
+{% if dados %}
+<table>
+    <tr>
+        {% for coluna in dados[0] %}<th>{{ coluna }}
+    </tr>
+</table>
