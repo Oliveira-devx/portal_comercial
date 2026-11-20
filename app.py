@@ -43,3 +43,81 @@ def erro_banco(error):
         "falha ao acessar o banaco de dados, confira o .env e se o mysql está ligado."
     )
     return render_template("erro.html", mensagem=mensagem), 500
+
+
+@app.route("/categorias")
+def categorias():
+    sql = """select 
+    id_categoria as id,
+    categoria
+    from categorias 
+    order by categoria"""
+    return render_template("tabela.html", titulo="Categorias", dados=consultar(sql))
+
+@app.route("/locais")
+def locais():
+    sql = """select 
+        id_local as id,
+        cidade,
+        estado,
+        regiao
+        from locais 
+        order by cidade, estado, regiao"""
+
+    return render_template("tabela.html", titulo="locais", dados=consultar(sql))
+
+@app.route("/clientes")
+def clientes():
+    busca = request.args.get("busca", "").strip()
+
+    sql = """select id_cliente as id, nome, sobrenome, email, 
+    from clientes 
+    where concat(nome, ' ', sobrenome) like %s
+    order by nome, sobrenome"""
+    
+    dados = consultar(sql, (f"%{busca}%",))
+    return render_template("tabela.html", titulo="clientes", dados=dados, busca=busca, vazio="nenhum cliente com esse nome encontrado")
+
+
+@app.route("/lojas")
+def lojas():
+    sql = """select l.id_loja as id, l.loja, loc.cidade, loc.estado,
+    from lojas as l
+    inner join locais as loc 
+    on loc.id_local = l.id_local
+    order by l.loja"""
+
+    return render_template("tabela.html", titulo="lojas", dados=consultar(sql))
+
+@app.route("/vendendores")
+def vendedores():
+    sql = """select v.id_vendedor as id, v.nome, v.email, l.loja
+    from vendendores as v
+    inner join lojas as l
+    on l.id_loja = v.id_loja
+    order by v.nome"""
+
+    return render_template("tabela.html", titulo="vendedores", dados=consultar(sql), vazio="nenhum vendedor encontrado")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
